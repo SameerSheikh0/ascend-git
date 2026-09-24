@@ -21,7 +21,7 @@ terraform {
   # workspace instead of local state. Create the workspace in the HCP
   # Terraform UI first (see README), then fill in your org name below.
   cloud {
-    organization = "YOUR_HCP_TERRAFORM_ORG"
+    organization = "sameer-ascend"
     workspaces {
       name = "ascend-infra"
     }

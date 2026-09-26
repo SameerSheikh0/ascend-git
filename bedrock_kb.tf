@@ -26,13 +26,13 @@ resource "aws_bedrockagent_knowledge_base" "ascend_kb" {
     }
   }
 
-  storage_configuration {
-    type = "S3_VECTORS"
-    s3vectors_configuration {
-      vector_bucket_arn = aws_s3vectors_vector_bucket.kb.arn
-      index_arn         = aws_s3vectors_index.kb.arn
-    }
-  }
+     storage_configuration {
+       type = "S3_VECTORS"
+       s3_vectors_configuration {
+         vector_bucket_arn = aws_s3vectors_vector_bucket.kb.arn
+         index_arn         = aws_s3vectors_index.kb.arn
+       }
+     }
 }
 
 resource "aws_bedrockagent_data_source" "codebase" {

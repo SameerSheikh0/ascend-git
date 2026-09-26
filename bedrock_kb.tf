@@ -28,10 +28,9 @@ resource "aws_bedrockagent_knowledge_base" "ascend_kb" {
 
      storage_configuration {
        type = "S3_VECTORS"
-              s3_vectors_configuration {
-         vector_bucket_arn = aws_s3vectors_vector_bucket.kb.vector_bucket_arn
-         index_arn         = aws_s3vectors_index.kb.index_arn
-       }
+                  s3_vectors_configuration {
+      index_arn = aws_s3vectors_index.kb.index_arn
+    }
      }
 }
 

@@ -59,23 +59,10 @@ resource "aws_bedrockagent_data_source" "codebase" {
 # Re-trigger ingestion whenever the set of synced files changes, so every
 # `terraform apply` (i.e. every git push) both updates S3 *and* refreshes
 # what the agent can retrieve - no manual "Sync" click needed.
-resource "terraform_data" "trigger_ingestion" {
-  triggers_replace = [
-    sha256(jsonencode([for f in aws_s3_object.codebase : f.etag]))
-  ]
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      aws bedrock-agent start-ingestion-job \
-        --knowledge-base-id ${aws_bedrockagent_knowledge_base.ascend_kb.id} \
-        --data-source-id ${aws_bedrockagent_data_source.codebase.data_source_id} \
-        --region ${var.aws_region}
-    EOT
-  }
-
-  depends_on = [aws_s3_object.codebase, aws_bedrockagent_data_source.codebase]
-}
 
 output "knowledge_base_id" {
   value = aws_bedrockagent_knowledge_base.ascend_kb.id
+}
+output "data_source_id" {
+  value = aws_bedrockagent_data_source.codebase.data_source_id
 }

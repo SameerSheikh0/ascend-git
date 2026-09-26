@@ -47,7 +47,7 @@ resource "aws_s3_bucket_public_access_block" "generated_code" {
 # *is* the pipeline.
 # ============================================================================
 locals {
-  repo_root = abspath(path.module)
+  repo_root = abspath("${path.module}/config")
 
   # Walk every file in the repo except .git internals, this Terraform
   # code itself, and the Lambda source (we don't want to feed our own

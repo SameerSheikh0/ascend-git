@@ -20,3 +20,9 @@ jobs:
 
       - name: Sync repo to S3
         run: aws s3 sync . "s3://${{ secrets.S3_BUCKET }}" --delete --exclude ".git/*" --exclude ".github/*"
+      - name: Trigger Knowledge Base ingestion
+        run: |
+          aws bedrock-agent start-ingestion-job \
+            --knowledge-base-id ${{ secrets.KB_ID }} \
+            --data-source-id ${{ secrets.KB_DATA_SOURCE_ID }} \
+            --region us-east-1

@@ -11,10 +11,6 @@ terraform {
       source  = "hashicorp/archive"
       version = "~> 2.4"
     }
-    terraform = {
-      source  = "hashicorp/terraform"
-      version = "~> 1.0"
-    }
   }
 
   # This block makes the workspace an HCP Terraform (Terraform Cloud) remote

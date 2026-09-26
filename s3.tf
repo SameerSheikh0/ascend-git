@@ -46,28 +46,4 @@ resource "aws_s3_bucket_public_access_block" "generated_code" {
 # whatever changed. No CodeBuild, no CodePipeline, no GitHub Actions: this
 # *is* the pipeline.
 # ============================================================================
-locals {
-  repo_root = abspath("${path.module}/config")
 
-  # Walk every file in the repo except .git internals, this Terraform
-  # code itself, and the Lambda source (we don't want to feed our own
-  # infra code into the knowledge base).
-  repo_files = {
-    for f in fileset(local.repo_root, "**") :
-    f => f
-    if !startswith(f, ".git/")
-      && !startswith(f, ".terraform")
-      && !startswith(f, "lambda/")
-      && !endswith(f, ".tf")
-      && f != ".terraformrc"
-  }
-}
-
-resource "aws_s3_object" "codebase" {
-  for_each = local.repo_files
-
-  bucket = aws_s3_bucket.codebase_kb.id
-  key    = each.value
-  source = "${local.repo_root}/${each.value}"
-  etag   = filemd5("${local.repo_root}/${each.value}")
-}

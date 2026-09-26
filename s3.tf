@@ -47,15 +47,19 @@ resource "aws_s3_bucket_public_access_block" "generated_code" {
 # *is* the pipeline.
 # ============================================================================
 locals {
-  repo_root = abspath("${path.module}/..")
+  repo_root = abspath(path.module)
 
-  # Walk every file in the repo except .git internals and this infra/
-  # directory itself (we don't want to feed our own Terraform code into
-  # the knowledge base).
+  # Walk every file in the repo except .git internals, this Terraform
+  # code itself, and the Lambda source (we don't want to feed our own
+  # infra code into the knowledge base).
   repo_files = {
     for f in fileset(local.repo_root, "**") :
     f => f
-    if !startswith(f, ".git/") && !startswith(f, "infra/")
+    if !startswith(f, ".git/")
+      && !startswith(f, ".terraform")
+      && !startswith(f, "lambda/")
+      && !endswith(f, ".tf")
+      && f != ".terraformrc"
   }
 }
 

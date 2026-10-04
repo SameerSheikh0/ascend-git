@@ -62,7 +62,7 @@ resource "aws_iam_role_policy" "bedrock_agent" {
         Sid      = "InvokeFoundationModel"
         Effect   = "Allow"
         Action   = ["bedrock:InvokeModel", "bedrock:InvokeModelWithResponseStream"]
-        Resource = "arn:aws:bedrock:${var.aws_region}::foundation-model/*"
+        Resource = "arn:aws:bedrock:*::foundation-model/*"
       },
       {
         Sid      = "InvokeInferenceProfile"
